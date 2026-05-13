@@ -1,0 +1,6 @@
+data/
+gita_chroma_db/
+__pycache__/
+.env
+.venv/
+*.pyc
