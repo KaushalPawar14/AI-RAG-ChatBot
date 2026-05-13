@@ -136,11 +136,18 @@ rag_retriever = hybrid_retriever
 # ==========================================
 # 4. LLM CONFIGURATION
 # ==========================================
-os.environ["OPENROUTER_API_KEY"] = "YOUR KEY HERE"
+
+# 1. REMOVE the hardcoded line: os.environ["OPENROUTER_API_KEY"] = "sk-..."
+# 2. INSTEAD, use getenv which will read the key from the Cloud Secrets
+api_key = os.getenv("OPENROUTER_API_KEY")
+
+if not api_key:
+    # This helps you debug if the key isn't loading correctly in the cloud
+    print("⚠️ Warning: OPENROUTER_API_KEY not found in environment variables.")
 
 llm = ChatOpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),
+    api_key=api_key, # Use the variable we just defined
     model="ling-2.6-flash",
     temperature=0.1,
     max_tokens=1024
